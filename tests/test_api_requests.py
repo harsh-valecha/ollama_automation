@@ -17,6 +17,11 @@ def test_api_generate_positive1():
     assert 'model' in response.json().keys()
     # asserting if the model comes correct
     assert response.json()['model']==MODEL
-
+    # asserting response time
+    assert response.elapsed.total_seconds()>5
+    # printing the response
+    # print(response.json()['response'])
+    # asserting the number of tokens
+    # assert response.json()['prompt_eval_count']==40
 
 # test_api_generate_positive1(URL,body)
