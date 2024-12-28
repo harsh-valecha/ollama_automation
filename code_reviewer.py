@@ -1,5 +1,6 @@
-from ollama import chat , ChatResponse
 import os
+from ollama import chat , ChatResponse
+from datetime import datetime
 
 # method that uses ollama chat to read the contents of the file and provide feedback
 def code_checker(filename,data):
@@ -25,6 +26,9 @@ def code_checker(filename,data):
 # read the contents of the file iteratively and provide the data
 directory_path = 'tests/'
 
+# review files
+review_comments = 'review/'
+
 # List all items in the directory
 items = os.listdir(directory_path)
 
@@ -36,6 +40,11 @@ for item in items:
         with open(os.path.join(directory_path, item), 'r') as file:
             content = file.read()
             review = code_checker(filename=item,data=content)
-            print(review['message']['content'])
+            # print(review['message']['content'])
+            # creates a file for review comments and save the contents to it
+            review_file_name = f"review_{item}_{datetime.now().strftime('%Y%m%d%H%M%S')}.txt"
+            with open(os.path.join(review_comments,review_file_name),'w') as review_file:
+                review_file.write(f"Review Comments for file :{item} , Details:\n {review['message']['content']}")
+            print(f'Review file created for {item}')
 
 
